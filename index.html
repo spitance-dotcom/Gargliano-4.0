@@ -687,6 +687,7 @@ body.is-ar header.top,body.is-ar nav.tabbar,body.is-ar footer.pied{display:none}
 .ar-ph b{font-family:var(--mono);font-size:11.5px;color:#c4b98a}.ar-ph span{font-weight:600;font-size:14px;line-height:1.1}
 .ar-ph.on{background:#c4b98a;color:#1d231c;border-color:#c4b98a}.ar-ph.on b{color:#1d231c}
 .ar.map #ar-ticks,.ar.map #ar-objs,.ar.map #ar-cross,.ar.map .ar-cal,.ar.map video,.ar.map #ar-radar,.ar.map #ar-sky{display:none}
+.ar-warn{position:absolute;z-index:5;left:10px;right:10px;top:calc(62px + env(safe-area-inset-top,0px));background:rgba(120,30,20,.92);border:1px solid #f07d72;border-radius:8px;padding:10px 12px;font-family:var(--serif);font-size:14px;line-height:1.35;color:#fff}
 #ar-map{position:absolute;inset:0;z-index:0;background:#1d2520}
 .ar.map .ar-top,.ar.map .ar-bot{z-index:2}
 .ar.map #ar-card{z-index:4}
@@ -703,6 +704,7 @@ body.is-ar header.top,body.is-ar nav.tabbar,body.is-ar footer.pied{display:none}
 .ar-mctl .ar-btn{min-width:44px;font-size:18px}
 #ar-north{font-size:13px}
 .ar-cal{position:absolute;right:10px;top:calc(98px + env(safe-area-inset-top,0px));display:flex;gap:6px}
+.ar-top{z-index:4}
 .ar-start{position:absolute;inset:0;background:rgba(18,22,16,.94);display:flex;align-items:flex-end;justify-content:center;padding:24px 20px calc(30px + env(safe-area-inset-bottom,0px));z-index:3}
 .ar-start>div{max-width:440px}
 .ar-start h2{color:#ece6d3;font-size:40px;margin:6px 0 10px}
@@ -1468,6 +1470,8 @@ const I18N_MAP={"en": {"Posez-le à plat : la carte s’affiche, orientée dans 
 for (const l in I18N_MAP) Object.assign(I18N[l], I18N_MAP[l]);
 const I18N_SORT={"en": {"Pizzeria napolitaine et pâtisserie": "Neapolitan pizzeria and pastry shop", "Restaurant familial de poisson, cité par le guide Michelin": "Family-run seafood restaurant, listed in the Michelin Guide", "Birreria : 13 bières pression, vins nature, whiskies et rhums, burgers": "Beer hall: 13 draught beers, natural wines, whiskies and rums, burgers", "Pub, bières artisanales": "Pub, craft beers", "Adresse à vérifier": "Address to be checked", "Itinéraire": "Directions", "Soirée à Cassino : restaurants et bars": "Evening in Cassino: restaurants and bars", "Le dîner est prévu au restaurant de l’hôtel. Ces adresses servent pour un verre ou une soirée libre, en tenue civile correcte et selon les consignes de l’encadrement.": "Dinner is planned at the hotel restaurant. These places are for a drink or a free evening, in smart civilian dress and following staff instructions.", "Pizzerias et restaurants": "Pizzerias and restaurants", "Bars": "Bars", "Notes relevées en octobre 2026 sur Tripadvisor et Google : vérifiez les horaires avant de partir.": "Ratings taken from Tripadvisor and Google in October 2026: check opening hours before you go.", "Café-bar du centre-ville": "Café-bar in the town centre", "Pizzeria « de recherche » (pizze di ricerca)": "\"Research\" pizzeria (pizze di ricerca)"}, "pt": {"Pizzeria napolitaine et pâtisserie": "Pizzaria napolitana e pastelaria", "Restaurant familial de poisson, cité par le guide Michelin": "Restaurante familiar de peixe, citado no guia Michelin", "Birreria : 13 bières pression, vins nature, whiskies et rhums, burgers": "Cervejaria: 13 cervejas de pressão, vinhos naturais, whiskies e runs, hambúrgueres", "Pub, bières artisanales": "Pub, cervejas artesanais", "Adresse à vérifier": "Morada a confirmar", "Itinéraire": "Itinerário", "Soirée à Cassino : restaurants et bars": "Noite em Cassino: restaurantes e bares", "Le dîner est prévu au restaurant de l’hôtel. Ces adresses servent pour un verre ou une soirée libre, en tenue civile correcte et selon les consignes de l’encadrement.": "O jantar está previsto no restaurante do hotel. Estes locais servem para uma bebida ou uma noite livre, em traje civil adequado e segundo as instruções do enquadramento.", "Pizzerias et restaurants": "Pizzarias e restaurantes", "Bars": "Bares", "Notes relevées en octobre 2026 sur Tripadvisor et Google : vérifiez les horaires avant de partir.": "Classificações recolhidas em outubro de 2026 no Tripadvisor e no Google: confirme os horários antes de sair.", "Café-bar du centre-ville": "Café-bar do centro da cidade", "Pizzeria « de recherche » (pizze di ricerca)": "Pizzaria «de pesquisa» (pizze di ricerca)"}, "ko": {"Pizzeria napolitaine et pâtisserie": "나폴리 피자와 디저트", "Restaurant familial de poisson, cité par le guide Michelin": "미쉐린 가이드에 소개된 가족 운영 해산물 식당", "Birreria : 13 bières pression, vins nature, whiskies et rhums, burgers": "비어홀: 생맥주 13종, 내추럴 와인, 위스키·럼, 버거", "Pub, bières artisanales": "펍, 수제 맥주", "Adresse à vérifier": "주소 확인 필요", "Itinéraire": "길찾기", "Soirée à Cassino : restaurants et bars": "카시노의 저녁: 식당과 바", "Le dîner est prévu au restaurant de l’hôtel. Ces adresses servent pour un verre ou une soirée libre, en tenue civile correcte et selon les consignes de l’encadrement.": "저녁 식사는 호텔 식당에서 합니다. 이 장소들은 한잔하거나 자유 저녁 시간용이며, 단정한 사복 차림으로 인솔진의 지침을 따르십시오.", "Pizzerias et restaurants": "피자집과 식당", "Bars": "바", "Notes relevées en octobre 2026 sur Tripadvisor et Google : vérifiez les horaires avant de partir.": "2026년 10월 Tripadvisor·Google 평점 기준입니다. 출발 전 영업시간을 확인하세요.", "Café-bar du centre-ville": "시내 중심가 카페 바", "Pizzeria « de recherche » (pizze di ricerca)": "'연구형' 피자집 (pizze di ricerca)"}, "ar": {"Pizzeria napolitaine et pâtisserie": "بيتزيريا نابولية وحلويات", "Restaurant familial de poisson, cité par le guide Michelin": "مطعم عائلي للمأكولات البحرية، مذكور في دليل ميشلان", "Birreria : 13 bières pression, vins nature, whiskies et rhums, burgers": "حانة بيرة: 13 بيرة من الصنبور، نبيذ طبيعي، ويسكي وروم، برغر", "Pub, bières artisanales": "حانة، بيرة حرفية", "Adresse à vérifier": "العنوان بحاجة إلى تحقق", "Itinéraire": "الاتجاهات", "Soirée à Cassino : restaurants et bars": "أمسية في كاسينو: مطاعم وحانات", "Le dîner est prévu au restaurant de l’hôtel. Ces adresses servent pour un verre ou une soirée libre, en tenue civile correcte et selon les consignes de l’encadrement.": "العشاء مقرر في مطعم الفندق. هذه العناوين لتناول مشروب أو لأمسية حرة، بلباس مدني لائق ووفق تعليمات المؤطرين.", "Pizzerias et restaurants": "بيتزيريات ومطاعم", "Bars": "حانات", "Notes relevées en octobre 2026 sur Tripadvisor et Google : vérifiez les horaires avant de partir.": "تقييمات مأخوذة من Tripadvisor وGoogle في أكتوبر 2026: تحقق من مواعيد العمل قبل الذهاب.", "Café-bar du centre-ville": "مقهى في وسط المدينة", "Pizzeria « de recherche » (pizze di ricerca)": "بيتزيريا «تجريبية» (pizze di ricerca)"}, "it": {"Pizzeria napolitaine et pâtisserie": "Pizzeria napoletana e pasticceria", "Restaurant familial de poisson, cité par le guide Michelin": "Ristorante di pesce a conduzione familiare, citato dalla guida Michelin", "Birreria : 13 bières pression, vins nature, whiskies et rhums, burgers": "Birreria: 13 spine, vini naturali, whisky e rum, hamburger", "Pub, bières artisanales": "Pub, birre artigianali", "Adresse à vérifier": "Indirizzo da verificare", "Itinéraire": "Indicazioni", "Soirée à Cassino : restaurants et bars": "Serata a Cassino: ristoranti e bar", "Le dîner est prévu au restaurant de l’hôtel. Ces adresses servent pour un verre ou une soirée libre, en tenue civile correcte et selon les consignes de l’encadrement.": "La cena è prevista al ristorante dell’hotel. Questi indirizzi sono per un drink o una serata libera, in abito civile decoroso e secondo le istruzioni dell’inquadramento.", "Pizzerias et restaurants": "Pizzerie e ristoranti", "Bars": "Bar", "Notes relevées en octobre 2026 sur Tripadvisor et Google : vérifiez les horaires avant de partir.": "Valutazioni rilevate a ottobre 2026 su Tripadvisor e Google: verificate gli orari prima di uscire.", "Café-bar du centre-ville": "Caffè-bar del centro città", "Pizzeria « de recherche » (pizze di ricerca)": "Pizzeria di ricerca"}};
 for (const l in I18N_SORT) Object.assign(I18N[l], I18N_SORT[l]);
+const I18N_ARS={"en": {"caméra": "camera", "sans caméra": "no camera", "boussole": "compass", "boussole relative": "relative compass", "au doigt": "by finger", "de la station": "from the stop", "position de la station": "stop position used", "GPS refusé": "GPS denied", "GPS indisponible": "GPS unavailable", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "On the claude.ai page, the browser blocks the compass, camera and GPS. Open the app installed from the GitHub link; meanwhile, turn the view with your finger and use the 🗺 button for the map.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "Compass silent: allow \"Motion & Orientation\" (iPhone: Settings › Safari), then reopen the Panorama. Meanwhile, turn the view with your finger; the 🗺 button shows the map."}, "pt": {"caméra": "câmara", "sans caméra": "sem câmara", "boussole": "bússola", "boussole relative": "bússola relativa", "au doigt": "com o dedo", "de la station": "da paragem", "position de la station": "posição da paragem", "GPS refusé": "GPS recusado", "GPS indisponible": "GPS indisponível", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "Na página claude.ai, o navegador bloqueia a bússola, a câmara e o GPS. Abra a app instalada a partir do link GitHub; entretanto, rode a vista com o dedo e use o botão 🗺 para o mapa.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "Bússola sem sinal: autorize «Movimento e orientação» (iPhone: Definições › Safari) e reabra a Vista panorâmica. Entretanto, rode a vista com o dedo; o botão 🗺 mostra o mapa."}, "ko": {"caméra": "카메라", "sans caméra": "카메라 없음", "boussole": "나침반", "boussole relative": "상대 나침반", "au doigt": "손가락으로", "de la station": "정차 지점에서", "position de la station": "정차 지점 위치 사용", "GPS refusé": "GPS 거부됨", "GPS indisponible": "GPS 사용 불가", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "claude.ai 페이지에서는 브라우저가 나침반, 카메라, GPS를 차단합니다. GitHub 링크로 설치한 앱을 여세요. 그동안은 손가락으로 화면을 돌리고 🗺 버튼으로 지도를 보세요.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "나침반 신호 없음: '동작 및 방향'을 허용하고(iPhone: 설정 › Safari) 다시 여세요. 그동안은 손가락으로 돌리고 🗺 버튼으로 지도를 보세요."}, "ar": {"caméra": "كاميرا", "sans caméra": "بدون كاميرا", "boussole": "بوصلة", "boussole relative": "بوصلة نسبية", "au doigt": "بالإصبع", "de la station": "من نقطة التوقف", "position de la station": "موقع نقطة التوقف", "GPS refusé": "تم رفض GPS", "GPS indisponible": "GPS غير متاح", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "في صفحة claude.ai يحظر المتصفح البوصلة والكاميرا وGPS. افتح التطبيق المثبت من رابط GitHub؛ وفي الأثناء أدر العرض بإصبعك واستخدم الزر 🗺 للخريطة.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "البوصلة لا تستجيب: اسمح بـ«الحركة والاتجاه» (آيفون: الإعدادات › Safari) ثم أعد فتح الجولة. وفي الأثناء أدر العرض بإصبعك؛ يعرض الزر 🗺 الخريطة."}, "it": {"caméra": "fotocamera", "sans caméra": "senza fotocamera", "boussole": "bussola", "boussole relative": "bussola relativa", "au doigt": "col dito", "de la station": "dalla tappa", "position de la station": "posizione della tappa", "GPS refusé": "GPS negato", "GPS indisponible": "GPS non disponibile", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "Nella pagina claude.ai il browser blocca bussola, fotocamera e GPS. Aprite l’app installata dal link GitHub; nel frattempo ruotate la vista con il dito e usate il pulsante 🗺 per la carta.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "Bussola muta: autorizzate «Movimento e orientamento» (iPhone: Impostazioni › Safari), poi riaprite il Giro d’orizzonte. Nel frattempo ruotate la vista con il dito; il pulsante 🗺 mostra la carta."}};
+for (const l in I18N_ARS) Object.assign(I18N[l], I18N_ARS[l]);
 let _PHK=null;
 function trPhrases(t){
   if (LANG==="fr") return t; const m=I18N_PH[LANG]; if(!m) return t;
@@ -3197,7 +3201,7 @@ function vAR(){
    <div id="ar-ticks"></div><div id="ar-objs"></div><div id="ar-cross"></div>
    <div class="ar-top"><button class="ar-btn" data-r="home">☰ Menu</button><select id="ar-st" aria-label="Point de station">${opts}</select><button class="ar-btn" id="ar-view" data-arview="1" aria-label="Carte ou horizon">🗺</button><button class="ar-btn" data-help="ar" aria-label="Mode d’emploi">?</button><span id="ar-head" class="ar-head">—</span></div>
    <div id="ar-map" hidden><svg id="ar-msvg" role="img" aria-label="Carte orientée"></svg><div class="ar-mctl"><button class="ar-btn" data-armz="1" aria-label="Zoom avant">+</button><button class="ar-btn" data-armz="-1" aria-label="Zoom arrière">−</button><button class="ar-btn" id="ar-north" data-arnorth="1">Cap ↑</button></div></div>
-   <div id="ar-card" hidden></div>
+   <div id="ar-card" hidden></div><div id="ar-warn" class="ar-warn" hidden></div>
    <div class="ar-bot"><canvas id="ar-radar" width="220" height="220" aria-label="Radar"></canvas>
      <div class="ar-tl"><div class="ar-tl-h"><b id="ar-ph-t"></b><span id="ar-mode"></span></div><div id="ar-frise" class="ar-frise"></div></div></div>
    <div id="ar-start" class="ar-start"><div><div class="cv-theme">Tour d’horizon</div><h2>Lever les yeux sur 1944</h2>
@@ -3264,28 +3268,62 @@ function arFrise(){
     f.querySelectorAll(".ar-ph").forEach((b,i)=>{ const c=b.offsetLeft+b.offsetWidth/2, d=Math.abs(c-mid); if(d<bd){bd=d;best=i;} });
     if (best!==AR.phase){ AR.phase=best; f.querySelectorAll(".ar-ph").forEach((b,i)=>b.classList.toggle("on",i===best)); arRender(); } },90); };
 }
+function arCompass(a,b,g){ // cap de la face arrière (caméra), téléphone tenu debout (spécification W3C)
+  const r=Math.PI/180, cX=Math.cos(b*r), sX=Math.sin(b*r), cY=Math.cos(g*r), sY=Math.sin(g*r), cZ=Math.cos(a*r), sZ=Math.sin(a*r);
+  const Vx=-cZ*sY-sZ*sX*cY, Vy=-sZ*sY+cZ*sX*cY; let h=Math.atan(Vx/Vy);
+  if (Vy<0) h+=Math.PI; else if (Vx<0) h+=2*Math.PI; return h/r; }
 function arOrient(e){
+  if (e.alpha==null && e.beta==null && typeof e.webkitCompassHeading!=="number") return;
+  AR.evt=true;
+  let t=null;
   if (typeof e.beta==="number" && typeof e.gamma==="number"){ const r=Math.PI/180;
-    const t=Math.acos(Math.max(-1,Math.min(1,Math.cos(e.beta*r)*Math.cos(e.gamma*r))))/r; arTilt(t); }
-  let h=null;
-  if (typeof e.webkitCompassHeading==="number") h=e.webkitCompassHeading;
-  else if (e.absolute && typeof e.alpha==="number") h=360-e.alpha;
-  if (h===null) return;
+    t=Math.acos(Math.max(-1,Math.min(1,Math.cos(e.beta*r)*Math.cos(e.gamma*r))))/r; arTilt(t); }
+  if (e.type==="deviceorientationabsolute") AR.absSeen=true;
+  let h=null, rel=false;
   const so=(screen.orientation&&screen.orientation.angle)||window.orientation||0;
-  h=(h+so+360+(AR.cal||0))%360;
+  if (typeof e.webkitCompassHeading==="number" && e.webkitCompassHeading>=0) h=(e.webkitCompassHeading+so)%360;
+  else if (typeof e.alpha==="number" && e.alpha!==null){
+    if (!e.absolute && AR.absSeen) return;               // on garde le flux absolu quand il existe
+    h = (t!==null && t>45 && typeof e.beta==="number") ? arCompass(e.alpha,e.beta,e.gamma) : (360-e.alpha+so)%360;
+    rel=!e.absolute; }
+  if (h===null || isNaN(h)) return;
+  if (rel){ if (AR.relOff===undefined) AR.relOff=((AR.head-h)+360)%360; h=(h+AR.relOff)%360; AR.rel=true; }
+  h=(h+360+(AR.cal||0))%360;
   const d=((h-AR.head+540)%360)-180; AR.head=(AR.head+d*0.25+360)%360; AR.live=true;
 }
-async function arStart(useSensors){
+function arWarn(msg){ const w=document.getElementById("ar-warn"); if(!w) return; w.textContent=msg?tr(msg):""; w.hidden=!msg; }
+function arStatus(){
+  const m=document.getElementById("ar-mode"); if(!m) return;
+  const parts=[tr(AR.camOn?"caméra":"sans caméra"), tr(AR.live?(AR.rel?"boussole relative":"boussole"):"au doigt")];
+  if (AR.gps) parts.push(AR.gps); m.textContent=parts.join(" · ");
+}
+async function arStart(useSensors, pOri){
   document.getElementById("ar-start").hidden=true;
-  let cam=false, comp=false;
+  AR.camOn=false; AR.evt=false; AR.gps="";
+  const inFrame=(()=>{ try{ return window.top!==window; }catch(e){ return true; } })();
   if (useSensors){
-    try { const s=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false}); AR.cam=s; const v=document.getElementById("ar-cam"); v.srcObject=s; cam=true; } catch(e){}
-    try { if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission==="function"){ const r=await DeviceOrientationEvent.requestPermission(); comp = r==="granted"; } else comp=true;
-      if (comp){ window.addEventListener("deviceorientationabsolute",arOrient,true); window.addEventListener("deviceorientation",arOrient,true); } } catch(e){ comp=false; }
-    try { navigator.geolocation && navigator.geolocation.getCurrentPosition(p=>{ const ll=[p.coords.latitude,p.coords.longitude]; const st=[PLACES[AR_ST[AR.st][0]].lat,PLACES[AR_ST[AR.st][0]].lon]; if(dist(ll,st)<3){ AR.own=ll; arRender(); } },()=>{}, {enableHighAccuracy:true,timeout:8000}); } catch(e){}
+    // 1. boussole : la demande iOS doit partir du geste (pOri, lancé au toucher)
+    let comp=false;
+    try { const r = pOri ? await pOri : "granted"; comp = r==="granted"; } catch(e){ comp=false; }
+    if (comp){ window.addEventListener("deviceorientationabsolute",arOrient,true); window.addEventListener("deviceorientation",arOrient,true); }
+    // 2. caméra
+    try { const st=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false}); AR.cam=st; const v=document.getElementById("ar-cam"); v.srcObject=st; try{ await v.play(); }catch(_){} AR.camOn=true; } catch(e){}
+    // 3. GPS suivi en continu
+    if (navigator.geolocation){ try { AR.gpsW=navigator.geolocation.watchPosition(p=>{
+        const ll=[p.coords.latitude,p.coords.longitude], k=AR_ST[AR.st][0], stn=[PLACES[k].lat,PLACES[k].lon], d=dist(ll,stn);
+        if (d<3){ AR.own=ll; AR.gps="GPS ±"+Math.round(p.coords.accuracy)+" m"; }
+        else { AR.own=null; AR.gps="GPS : "+d.toFixed(0)+" km "+tr("de la station")+" · "+tr("position de la station"); }
+        AR.mkey=""; arStatus(); },
+      err=>{ AR.gps=tr(err&&err.code===1?"GPS refusé":"GPS indisponible"); arStatus(); },
+      {enableHighAccuracy:true,maximumAge:5000,timeout:15000}); } catch(e){ AR.gps=tr("GPS indisponible"); } }
+    else AR.gps=tr("GPS indisponible");
+    setTimeout(()=>{ arStatus();
+      if (!AR.evt) arWarn(inFrame ? "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte."
+                                  : "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.");
+      else arWarn(""); },2500);
   }
-  document.getElementById("ar").classList.toggle("cam",cam);
-  setTimeout(()=>{ document.getElementById("ar-mode").textContent = (cam?"caméra":"sans caméra")+" · "+(AR.live?"boussole":"au doigt"); },1500);
+  document.getElementById("ar").classList.toggle("cam",AR.camOn);
+  setTimeout(()=>{ document.getElementById("ar").classList.toggle("cam",AR.camOn); arStatus(); },1500);
   const loop=()=>{ arRender(); AR.raf=requestAnimationFrame(loop); }; cancelAnimationFrame(AR.raf); loop();
 }
 /* ---- vue carte : téléphone à plat (inclinaison < 30°), horizon dès qu'on le redresse (> 50°) ---- */
@@ -3341,14 +3379,17 @@ function arMapRender(){
   const nb=document.getElementById("ar-north"); if(nb) nb.textContent=AR.north?"Nord ↑":"Cap ↑";
 }
 function arStop(){ cancelAnimationFrame(AR.raf); if(AR.cam){ AR.cam.getTracks().forEach(t=>t.stop()); AR.cam=null; }
-  window.removeEventListener("deviceorientationabsolute",arOrient,true); window.removeEventListener("deviceorientation",arOrient,true); AR.live=false; clearTimeout(AR.tt); AR.want=null; AR.map=false; }
+  window.removeEventListener("deviceorientationabsolute",arOrient,true); window.removeEventListener("deviceorientation",arOrient,true); AR.live=false; clearTimeout(AR.tt); AR.want=null; AR.map=false;
+  if (AR.gpsW!=null && navigator.geolocation){ try{ navigator.geolocation.clearWatch(AR.gpsW); }catch(e){} AR.gpsW=null; } AR.relOff=undefined; AR.rel=false; AR.absSeen=false; }
 function arMount(){
   const root=document.getElementById("ar"); if(!root || root.dataset.m) return; root.dataset.m="1";
   const sk=AR_ST[AR.st][1]; if (AR.phase>=SCEN[sk].phases.length) AR.phase=0;
   // cap initial : vers le centre de gravité des unités
   const {objs}=arObjects(); const us=objs.filter(o=>o.kind==="u"); if(us.length){ let sx=0,sy=0; us.forEach(o=>{ sx+=Math.sin(o.b*Math.PI/180); sy+=Math.cos(o.b*Math.PI/180); }); AR.head=(Math.atan2(sx,sy)*180/Math.PI+360)%360; }
   arFrise(); arRender();
-  document.getElementById("ar-go").onclick=()=>arStart(true);
+  document.getElementById("ar-go").onclick=()=>{ let pOri=null;
+    try{ if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission==="function") pOri=DeviceOrientationEvent.requestPermission(); }catch(e){}
+    arStart(true,pOri); };
   document.getElementById("ar-manual").onclick=()=>arStart(false);
   document.getElementById("ar-st").onchange=e=>{ AR.st=+e.target.value; AR.phase=0; AR.own=null; root.dataset.m=""; const {objs}=arObjects(); const us=objs.filter(o=>o.kind==="u"); let sx=0,sy=0; us.forEach(o=>{ sx+=Math.sin(o.b*Math.PI/180); sy+=Math.cos(o.b*Math.PI/180); }); if(!AR.live) AR.head=(Math.atan2(sx,sy)*180/Math.PI+360)%360; arFrise(); arRender(); root.dataset.m="1"; };
   const sky=document.getElementById("ar-objs").parentElement;
