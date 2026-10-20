@@ -300,11 +300,15 @@ svg.hoi text{font-family:var(--display)}
 .lg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);align-items:center;margin-top:6px}
 .lg span{display:inline-flex;align-items:center;gap:6px}
 .lgl{display:inline-block;width:22px;border-top:4px solid}
-.fs{position:fixed;inset:0;z-index:70;background:var(--paper);border-radius:0;padding:calc(8px + env(safe-area-inset-top,0px)) 10px calc(8px + env(safe-area-inset-bottom,0px));overflow:auto;display:flex;flex-direction:column;gap:8px}
-.hoiwrap.fs{background:#0e1418;justify-content:center;padding:0}
-.fs svg.hoi{max-height:calc(100vh - 20px);width:auto;max-width:100%;margin:0 auto}
-.scen-mount.fs svg.hoi{max-height:62vh}
-.scen-mount.fs .hoiwrap{flex:none}
+.fs{position:fixed!important;inset:0!important;z-index:70;max-width:none!important;width:auto!important;height:auto!important;margin:0!important;background:var(--paper);border-radius:0;padding:calc(8px + env(safe-area-inset-top,0px)) 10px calc(8px + env(safe-area-inset-bottom,0px));overflow:auto;display:flex;flex-direction:column;gap:8px}
+.hoiwrap.fs{background:#0e1418;justify-content:flex-start;padding:0;display:block;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.roadwrap.fs{display:block;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.scen-mount.fs .hoiwrap{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;position:relative}
+.fs .maptool[data-mapfs],.fs .fsz{position:fixed;z-index:72}
+.fs .maptool[data-mapfs]{top:calc(10px + env(safe-area-inset-top,0px));right:10px}
+.fsz{right:10px;top:calc(60px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:6px}
+.fsz .maptool{position:static}
+.scen-mount.fs .hoiwrap{flex:1 1 auto;min-height:48vh}
 
 .ill{margin:4px 0 8px;display:flex;flex-direction:column;gap:6px}
 .iz{stroke-width:2.5;stroke-linejoin:round}
@@ -687,6 +691,12 @@ body.is-ar header.top,body.is-ar nav.tabbar,body.is-ar footer.pied{display:none}
 .ar-ph b{font-family:var(--mono);font-size:11.5px;color:#c4b98a}.ar-ph span{font-weight:600;font-size:14px;line-height:1.1}
 .ar-ph.on{background:#c4b98a;color:#1d231c;border-color:#c4b98a}.ar-ph.on b{color:#1d231c}
 .ar.map #ar-ticks,.ar.map #ar-objs,.ar.map #ar-cross,.ar.map .ar-cal,.ar.map video,.ar.map #ar-radar,.ar.map #ar-sky{display:none}
+.ar-warn.soft{background:rgba(10,14,12,.88);border-color:#4a5243;text-align:center;font-family:var(--display);font-weight:600}
+.ar-l{appearance:none;border:0;color:inherit;cursor:pointer}
+.ar-l.m{color:#ffd9d4}.ar-l.s{color:#f2b33d}
+#ar-pl.on{background:#c4b98a;color:#1d231c}
+#ar-msvg .ar-mm{fill:#ffd9d4;stroke:#141a1c}#ar-msvg .ar-mml{fill:#ffd9d4}
+#ar-msvg .ar-ms{fill:#f2b33d;stroke:#141a1c}#ar-msvg .ar-mp{cursor:pointer}
 .ar-warn{position:absolute;z-index:5;left:10px;right:10px;top:calc(62px + env(safe-area-inset-top,0px));background:rgba(120,30,20,.92);border:1px solid #f07d72;border-radius:8px;padding:10px 12px;font-family:var(--serif);font-size:14px;line-height:1.35;color:#fff}
 #ar-map{position:absolute;inset:0;z-index:0;background:#1d2520}
 .ar.map .ar-top,.ar.map .ar-bot{z-index:2}
@@ -703,6 +713,7 @@ body.is-ar header.top,body.is-ar nav.tabbar,body.is-ar footer.pied{display:none}
 .ar-mctl{position:absolute;right:10px;top:calc(70px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:6px}
 .ar-mctl .ar-btn{min-width:44px;font-size:18px}
 #ar-north{font-size:13px}
+.ar-cal [data-arcam]{display:none}.ar.cam .ar-cal [data-arcam]{display:inline-block}
 .ar-cal{position:absolute;right:10px;top:calc(98px + env(safe-area-inset-top,0px));display:flex;gap:6px}
 .ar-top{z-index:4}
 .ar-start{position:absolute;inset:0;background:rgba(18,22,16,.94);display:flex;align-items:flex-end;justify-content:center;padding:24px 20px calc(30px + env(safe-area-inset-bottom,0px));z-index:3}
@@ -1472,6 +1483,8 @@ const I18N_SORT={"en": {"Pizzeria napolitaine et pâtisserie": "Neapolitan pizze
 for (const l in I18N_SORT) Object.assign(I18N[l], I18N_SORT[l]);
 const I18N_ARS={"en": {"caméra": "camera", "sans caméra": "no camera", "boussole": "compass", "boussole relative": "relative compass", "au doigt": "by finger", "de la station": "from the stop", "position de la station": "stop position used", "GPS refusé": "GPS denied", "GPS indisponible": "GPS unavailable", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "On the claude.ai page, the browser blocks the compass, camera and GPS. Open the app installed from the GitHub link; meanwhile, turn the view with your finger and use the 🗺 button for the map.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "Compass silent: allow \"Motion & Orientation\" (iPhone: Settings › Safari), then reopen the Panorama. Meanwhile, turn the view with your finger; the 🗺 button shows the map."}, "pt": {"caméra": "câmara", "sans caméra": "sem câmara", "boussole": "bússola", "boussole relative": "bússola relativa", "au doigt": "com o dedo", "de la station": "da paragem", "position de la station": "posição da paragem", "GPS refusé": "GPS recusado", "GPS indisponible": "GPS indisponível", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "Na página claude.ai, o navegador bloqueia a bússola, a câmara e o GPS. Abra a app instalada a partir do link GitHub; entretanto, rode a vista com o dedo e use o botão 🗺 para o mapa.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "Bússola sem sinal: autorize «Movimento e orientação» (iPhone: Definições › Safari) e reabra a Vista panorâmica. Entretanto, rode a vista com o dedo; o botão 🗺 mostra o mapa."}, "ko": {"caméra": "카메라", "sans caméra": "카메라 없음", "boussole": "나침반", "boussole relative": "상대 나침반", "au doigt": "손가락으로", "de la station": "정차 지점에서", "position de la station": "정차 지점 위치 사용", "GPS refusé": "GPS 거부됨", "GPS indisponible": "GPS 사용 불가", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "claude.ai 페이지에서는 브라우저가 나침반, 카메라, GPS를 차단합니다. GitHub 링크로 설치한 앱을 여세요. 그동안은 손가락으로 화면을 돌리고 🗺 버튼으로 지도를 보세요.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "나침반 신호 없음: '동작 및 방향'을 허용하고(iPhone: 설정 › Safari) 다시 여세요. 그동안은 손가락으로 돌리고 🗺 버튼으로 지도를 보세요."}, "ar": {"caméra": "كاميرا", "sans caméra": "بدون كاميرا", "boussole": "بوصلة", "boussole relative": "بوصلة نسبية", "au doigt": "بالإصبع", "de la station": "من نقطة التوقف", "position de la station": "موقع نقطة التوقف", "GPS refusé": "تم رفض GPS", "GPS indisponible": "GPS غير متاح", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "في صفحة claude.ai يحظر المتصفح البوصلة والكاميرا وGPS. افتح التطبيق المثبت من رابط GitHub؛ وفي الأثناء أدر العرض بإصبعك واستخدم الزر 🗺 للخريطة.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "البوصلة لا تستجيب: اسمح بـ«الحركة والاتجاه» (آيفون: الإعدادات › Safari) ثم أعد فتح الجولة. وفي الأثناء أدر العرض بإصبعك؛ يعرض الزر 🗺 الخريطة."}, "it": {"caméra": "fotocamera", "sans caméra": "senza fotocamera", "boussole": "bussola", "boussole relative": "bussola relativa", "au doigt": "col dito", "de la station": "dalla tappa", "position de la station": "posizione della tappa", "GPS refusé": "GPS negato", "GPS indisponible": "GPS non disponibile", "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte.": "Nella pagina claude.ai il browser blocca bussola, fotocamera e GPS. Aprite l’app installata dal link GitHub; nel frattempo ruotate la vista con il dito e usate il pulsante 🗺 per la carta.", "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.": "Bussola muta: autorizzate «Movimento e orientamento» (iPhone: Impostazioni › Safari), poi riaprite il Giro d’orizzonte. Nel frattempo ruotate la vista con il dito; il pulsante 🗺 mostra la carta."}};
 for (const l in I18N_ARS) Object.assign(I18N[l], I18N_ARS[l]);
+const I18N_PL={"en": {"Tous les lieux cités": "All places mentioned", "Lieux essentiels": "Key places", "Sommet": "Summit", "Localité": "Locality", "Lieu de mémoire": "Memorial site", "Point de station": "Stop", "Lieu": "Place", "cap": "bearing", "Une seule caméra disponible": "Only one camera available", "Caméra": "Camera", "Aucune autre caméra ne donne d’image": "No other camera gives a picture", "capteur": "sensor", "capteur relatif": "relative sensor", "Lieux : essentiels ou tous": "Places: key or all", "Changer de caméra": "Switch camera", "Cimetière du Commonwealth": "Commonwealth war cemetery", "Sacrario de Monte Lungo": "Monte Lungo memorial", "📍 affiche tous les lieux cités dans les documents (sinon les essentiels). Touchez un lieu pour son cap et sa distance. Si l’image de la caméra reste noire, touchez 📷↻ pour passer à une autre caméra.": "📍 shows every place mentioned in the documents (otherwise the key ones). Tap a place for its bearing and distance. If the camera picture stays black, tap 📷↻ to switch to another camera.", "Cimetière polonais": "Polish cemetery", "Cimetière allemand (Caira)": "German cemetery (Caira)", "Cimetière français (Venafro)": "French cemetery (Venafro)", "San Pietro Infine (ruines)": "San Pietro Infine (ruins)"}, "pt": {"Tous les lieux cités": "Todos os locais citados", "Lieux essentiels": "Locais essenciais", "Sommet": "Cume", "Localité": "Localidade", "Lieu de mémoire": "Local de memória", "Point de station": "Ponto de paragem", "Lieu": "Local", "cap": "rumo", "Une seule caméra disponible": "Só uma câmara disponível", "Caméra": "Câmara", "Aucune autre caméra ne donne d’image": "Nenhuma outra câmara dá imagem", "capteur": "sensor", "capteur relatif": "sensor relativo", "Lieux : essentiels ou tous": "Locais: essenciais ou todos", "Changer de caméra": "Mudar de câmara", "Cimetière du Commonwealth": "Cemitério da Commonwealth", "Sacrario de Monte Lungo": "Sacrário de Monte Lungo", "📍 affiche tous les lieux cités dans les documents (sinon les essentiels). Touchez un lieu pour son cap et sa distance. Si l’image de la caméra reste noire, touchez 📷↻ pour passer à une autre caméra.": "📍 mostra todos os locais citados nos documentos (senão, os essenciais). Toque num local para ver o rumo e a distância. Se a imagem da câmara ficar preta, toque em 📷↻ para mudar de câmara.", "Cimetière polonais": "Cemitério polaco", "Cimetière allemand (Caira)": "Cemitério alemão (Caira)", "Cimetière français (Venafro)": "Cemitério francês (Venafro)", "San Pietro Infine (ruines)": "San Pietro Infine (ruínas)"}, "ko": {"Tous les lieux cités": "언급된 모든 장소", "Lieux essentiels": "주요 장소", "Sommet": "정상", "Localité": "마을", "Lieu de mémoire": "추모 장소", "Point de station": "정차 지점", "Lieu": "장소", "cap": "방위", "Une seule caméra disponible": "카메라가 하나뿐입니다", "Caméra": "카메라", "Aucune autre caméra ne donne d’image": "다른 카메라에서 영상이 나오지 않습니다", "capteur": "센서", "capteur relatif": "상대 센서", "Lieux : essentiels ou tous": "장소: 주요 또는 전체", "Changer de caméra": "카메라 전환", "Cimetière du Commonwealth": "영연방 묘지", "Sacrario de Monte Lungo": "몬테룽고 추모관", "📍 affiche tous les lieux cités dans les documents (sinon les essentiels). Touchez un lieu pour son cap et sa distance. Si l’image de la caméra reste noire, touchez 📷↻ pour passer à une autre caméra.": "📍는 문서에 언급된 모든 장소를 보여 줍니다(아니면 주요 장소만). 장소를 누르면 방위와 거리가 나옵니다. 카메라 화면이 검게 남으면 📷↻로 다른 카메라로 바꾸세요.", "Cimetière polonais": "폴란드 묘지", "Cimetière allemand (Caira)": "독일군 묘지 (카이라)", "Cimetière français (Venafro)": "프랑스군 묘지 (베나프로)", "San Pietro Infine (ruines)": "산피에트로인피네 (폐허)"}, "ar": {"Tous les lieux cités": "كل الأماكن المذكورة", "Lieux essentiels": "الأماكن الأساسية", "Sommet": "قمة", "Localité": "بلدة", "Lieu de mémoire": "موقع تذكاري", "Point de station": "نقطة توقف", "Lieu": "مكان", "cap": "اتجاه", "Une seule caméra disponible": "كاميرا واحدة متاحة فقط", "Caméra": "كاميرا", "Aucune autre caméra ne donne d’image": "لا توجد كاميرا أخرى تعطي صورة", "capteur": "مستشعر", "capteur relatif": "مستشعر نسبي", "Lieux : essentiels ou tous": "الأماكن: الأساسية أو الكل", "Changer de caméra": "تبديل الكاميرا", "Cimetière du Commonwealth": "مقبرة الكومنولث", "Sacrario de Monte Lungo": "نصب مونتي لونغو", "📍 affiche tous les lieux cités dans les documents (sinon les essentiels). Touchez un lieu pour son cap et sa distance. Si l’image de la caméra reste noire, touchez 📷↻ pour passer à une autre caméra.": "📍 يعرض كل الأماكن المذكورة في الوثائق (وإلا الأساسية فقط). المس مكانًا لمعرفة اتجاهه ومسافته. إذا بقيت صورة الكاميرا سوداء، المس 📷↻ للتبديل إلى كاميرا أخرى.", "Cimetière polonais": "المقبرة البولندية", "Cimetière allemand (Caira)": "المقبرة الألمانية (كايرا)", "Cimetière français (Venafro)": "المقبرة الفرنسية (فينافرو)", "San Pietro Infine (ruines)": "سان بيترو إنفيني (أطلال)"}, "it": {"Tous les lieux cités": "Tutti i luoghi citati", "Lieux essentiels": "Luoghi essenziali", "Sommet": "Cima", "Localité": "Località", "Lieu de mémoire": "Luogo della memoria", "Point de station": "Punto di sosta", "Lieu": "Luogo", "cap": "rotta", "Une seule caméra disponible": "Una sola fotocamera disponibile", "Caméra": "Fotocamera", "Aucune autre caméra ne donne d’image": "Nessun’altra fotocamera dà immagine", "capteur": "sensore", "capteur relatif": "sensore relativo", "Lieux : essentiels ou tous": "Luoghi: essenziali o tutti", "Changer de caméra": "Cambia fotocamera", "Cimetière du Commonwealth": "Cimitero del Commonwealth", "Sacrario de Monte Lungo": "Sacrario di Monte Lungo", "📍 affiche tous les lieux cités dans les documents (sinon les essentiels). Touchez un lieu pour son cap et sa distance. Si l’image de la caméra reste noire, touchez 📷↻ pour passer à une autre caméra.": "📍 mostra tutti i luoghi citati nei documenti (altrimenti quelli essenziali). Toccate un luogo per rotta e distanza. Se l’immagine della fotocamera resta nera, toccate 📷↻ per passare a un’altra fotocamera.", "Cimetière polonais": "Cimitero polacco", "Cimetière allemand (Caira)": "Cimitero tedesco (Caira)", "Cimetière français (Venafro)": "Cimitero francese (Venafro)", "San Pietro Infine (ruines)": "San Pietro Infine (rovine)"}};
+for (const l in I18N_PL) Object.assign(I18N[l], I18N_PL[l]);
 let _PHK=null;
 function trPhrases(t){
   if (LANG==="fr") return t; const m=I18N_PH[LANG]; if(!m) return t;
@@ -1822,8 +1835,22 @@ function mountScenario(el,S,max,last){
 }
 
 /* plein écran (paysage conseillé) */
-document.addEventListener("click",e=>{ const b=e.target.closest("[data-mapfs]"); if(!b) return;
-  const w=b.closest(".scen-mount")||b.closest(".hoiwrap")||b.closest(".roadwrap"); const on=!w.classList.contains("fs"); w.classList.toggle("fs",on); b.textContent=on?"✕":"⤢"; document.body.style.overflow=on?"hidden":""; });
+function fsHost(w){ return w.classList.contains("scen-mount") ? w.querySelector(".hoiwrap") : w; }
+function fsLayout(w){ const host=fsHost(w), svg=host&&host.querySelector("svg"); if(!svg||!svg.viewBox||!svg.viewBox.baseVal) return;
+  const vb=svg.viewBox.baseVal, W=host.clientWidth, H=host.clientHeight; if(!W||!H||!vb.width) return;
+  const cover=Math.max(W/vb.width,H/vb.height), contain=Math.min(W/vb.width,H/vb.height);
+  let k=cover*(+w.dataset.fz||1); k=Math.max(contain,Math.min(cover*4,k));
+  const cx=(host.scrollLeft+W/2)/(svg.clientWidth||1), cy=(host.scrollTop+H/2)/(svg.clientHeight||1), first=!svg.style.width;
+  svg.style.width=Math.round(vb.width*k)+"px"; svg.style.height=Math.round(vb.height*k)+"px"; svg.style.maxWidth="none"; svg.style.maxHeight="none"; svg.style.flex="none";
+  host.scrollLeft = (first?0.5:cx)*svg.clientWidth - W/2; host.scrollTop = (first?0.5:cy)*svg.clientHeight - H/2; }
+function fsSet(w,on){ const b=w.querySelector("[data-mapfs]"); w.classList.toggle("fs",on); if(b) b.textContent=on?"✕":"⤢"; document.body.style.overflow=on?"hidden":"";
+  const host=fsHost(w), svg=host&&host.querySelector("svg");
+  if (on){ w.dataset.fz="1"; if(!w.querySelector(".fsz")) w.insertAdjacentHTML("beforeend",`<div class="fsz"><button class="maptool" data-fsz="1" aria-label="${escRaw(tr("Zoom avant"))}">+</button><button class="maptool" data-fsz="-1" aria-label="${escRaw(tr("Zoom arrière"))}">−</button></div>`); requestAnimationFrame(()=>fsLayout(w)); }
+  else { const z=w.querySelector(".fsz"); if(z) z.remove(); if(svg){ ["width","height","maxWidth","maxHeight","flex"].forEach(k=>svg.style[k]=""); } if(host){ host.scrollLeft=0; host.scrollTop=0; } } }
+document.addEventListener("click",e=>{ const z=e.target.closest("[data-fsz]"); if(z){ const w=z.closest(".fs"); if(!w) return; let f=+w.dataset.fz||1; f=+z.dataset.fsz>0?f*1.5:f/1.5; w.dataset.fz=Math.max(0.2,Math.min(4,f)); fsLayout(w); return; }
+  const b=e.target.closest("[data-mapfs]"); if(!b) return;
+  const w=b.closest(".scen-mount")||b.closest(".hoiwrap")||b.closest(".roadwrap"); fsSet(w,!w.classList.contains("fs")); });
+window.addEventListener("resize",()=>{ document.querySelectorAll(".fs").forEach(w=>{ const svg=fsHost(w)&&fsHost(w).querySelector("svg"); if(svg) svg.style.width=""; fsLayout(w); }); });
 
 /* ===================== Événements sur la route =====================
    m = minutes après le départ prévu (horaire de la note d'organisation).
@@ -2340,7 +2367,8 @@ const HELP = {
   "Les unités apparaissent dans leur direction réelle, avec leur distance. Touchez-en une pour afficher sa fiche.",
   "Faites glisser la frise du bas pour changer de date. ◀ 5° ▶ recale l’affichage si la boussole dérive.",
   "Sans caméra : faites tourner la vue au doigt.",
-  "Téléphone à plat : la carte de la phase s’affiche, orientée selon votre cap, avec votre position, votre champ de vision et des cercles de distance. Redressez-le pour revenir à l’horizon ; le bouton 🗺 / 👁 bascule à la main."]]
+  "Téléphone à plat : la carte de la phase s’affiche, orientée selon votre cap, avec votre position, votre champ de vision et des cercles de distance. Redressez-le pour revenir à l’horizon ; le bouton 🗺 / 👁 bascule à la main.",
+  "📍 affiche tous les lieux cités dans les documents (sinon les essentiels). Touchez un lieu pour son cap et sa distance. Si l’image de la caméra reste noire, touchez 📷↻ pour passer à une autre caméra."]]
 };
 function helpSeen(r){ try{ return localStorage.getItem("g3-help-"+r)==="1"; }catch(e){ return false; } }
 function helpShow(r){
@@ -3193,13 +3221,39 @@ function brg(a,b){ const r=Math.PI/180, f1=a[0]*r, f2=b[0]*r, dl=(b[1]-a[1])*r;
 function dist(a,b){ const r=Math.PI/180, R=6371; const dφ=(b[0]-a[0])*r, dλ=(b[1]-a[1])*r;
   const h=Math.sin(dφ/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dλ/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
 
-const AR={on:false, st:0, phase:0, head:0, fov:60, live:false, cam:null, raf:0, drag:null, own:null, map:false, want:null, tt:0, zoom:1.3, north:false, mkey:"", mhead:null};
+
+/* ---- Lieux cités dans les documents et l'appli, pour le Tour d'horizon ----
+   Sources des positions : cartes du dossier (repère pixels), PLACES/LANDMARKS de l'appli,
+   et géocodage TomTom (oct. 2026) pour les lieux des livrets absents des cartes.
+   pr : 1 = station / lieu de mémoire, 2 = repère majeur, 3 = détail (affiché si « tous les lieux » ou zoom fort). */
+const AR_PL = (()=>{
+  const out=[], seen=new Map();
+  const norm=n=>n.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[’']/g,"").replace(/\s+\d+$/,"").replace(/^(mont|monte|monts|le|la|l)\s+/,"").trim();
+  const add=(n,lat,lon,k,pr)=>{ if(!isFinite(lat)||!isFinite(lon)) return; const key=norm(n);
+    const prev=seen.get(key); if(prev && dist([prev.lat,prev.lon],[lat,lon])<2.5){ if(pr<prev.pr) prev.pr=pr; if(/\d{3,4}$/.test(n)&&!/\d{3,4}$/.test(prev.n)) prev.n=n; return; }
+    const near=out.find(o=>dist([o.lat,o.lon],[lat,lon])<(k==="p"||o.k==="p"?0.35:0.9)); if(near){ if(pr<near.pr) near.pr=pr; return; }
+    const o={n,lat,lon,k,pr}; out.push(o); seen.set(key,o); };
+  const px=(x,y)=>px2ll(x,y);
+  Object.entries(PLACES).forEach(([id,p])=>{ if(["hotel","apt","jfc"].includes(id)) return; add(p.n,p.lat,p.lon,"s",1); });
+  [["Cimetière polonais",41.49414,13.805758],["Cimetière allemand (Caira)",41.531037,13.8231],["Cimetière du Commonwealth",41.477654,13.826358],
+   ["Sacrario de Monte Lungo",41.4225,13.969],["Cimetière français (Venafro)",41.48914,14.055822],["San Pietro Infine (ruines)",41.447055,13.962518]].forEach(([n,a,b])=>add(n,a,b,"m",1));
+  LANDMARKS.forEach(l=>add(l.n,l.lat,l.lon,l.k==="mt"?"p":"v",2));
+  H_TOWNS.forEach(([n,x,y,rk])=>{ const ll=px(x,y); add(n,ll[0],ll[1],"v",rk<=1?2:3); });
+  H_PEAKS.forEach(([n,x,y])=>{ const ll=px(x,y); add(n,ll[0],ll[1],"p",2); });
+  Object.values(ILLUS).forEach(C=>(C.pts||C.labels||[]).forEach(q=>{ if(!q||!q.t||(q.ic!=="peak"&&q.ic!=="dot")) return; const ll=px(q.x,q.y); add(q.t,ll[0],ll[1],q.ic==="peak"?"p":"v",3); }));
+  GAZ.forEach(([re,n,x,y])=>{ const ll=px(x,y); add(n,ll[0],ll[1],/Mont |Monte|Majo|Cifalco|Trocchio|Petrella|Belvédère/.test(n)?"p":"v",3); });
+  [["Suio",41.297797,13.855347],["Valleluce",41.566031,13.856369],["Portella",41.521447,13.878107],["Sant’Andrea del Garigliano",41.368296,13.841889],
+   ["San Giorgio a Liri",41.405173,13.762412],["Sant’Apollinare",41.40261,13.830815],["Sant’Ambrogio sul Garigliano",41.391164,13.869454],["Vallemaio",41.368257,13.811416],
+   ["Spigno Saturnia",41.305329,13.734145],["Coreno Ausonio",41.346111,13.7825],["Filignano",41.545944,14.05737]].forEach(([n,a,b])=>add(n,a,b,"v",3));
+  return out;
+})();
+const AR={allPl:false, on:false, st:0, phase:0, head:0, fov:60, live:false, cam:null, raf:0, drag:null, own:null, map:false, want:null, tt:0, zoom:1.3, north:false, mkey:"", mhead:null};
 function vAR(){
   const opts=AR_ST.map(([k,,n],i)=>`<option value="${i}" ${i===AR.st?"selected":""}>${esc(n)}</option>`).join("");
   return `<div id="ar" class="ar">
    <video id="ar-cam" playsinline muted autoplay></video><div id="ar-sky"></div>
    <div id="ar-ticks"></div><div id="ar-objs"></div><div id="ar-cross"></div>
-   <div class="ar-top"><button class="ar-btn" data-r="home">☰ Menu</button><select id="ar-st" aria-label="Point de station">${opts}</select><button class="ar-btn" id="ar-view" data-arview="1" aria-label="Carte ou horizon">🗺</button><button class="ar-btn" data-help="ar" aria-label="Mode d’emploi">?</button><span id="ar-head" class="ar-head">—</span></div>
+   <div class="ar-top"><button class="ar-btn" data-r="home">☰ Menu</button><select id="ar-st" aria-label="Point de station">${opts}</select><button class="ar-btn" id="ar-view" data-arview="1" aria-label="Carte ou horizon">🗺</button><button class="ar-btn" id="ar-pl" data-arplall="1" aria-label="Lieux : essentiels ou tous" aria-pressed="false">📍</button><button class="ar-btn" data-help="ar" aria-label="Mode d’emploi">?</button><span id="ar-head" class="ar-head">—</span></div>
    <div id="ar-map" hidden><svg id="ar-msvg" role="img" aria-label="Carte orientée"></svg><div class="ar-mctl"><button class="ar-btn" data-armz="1" aria-label="Zoom avant">+</button><button class="ar-btn" data-armz="-1" aria-label="Zoom arrière">−</button><button class="ar-btn" id="ar-north" data-arnorth="1">Cap ↑</button></div></div>
    <div id="ar-card" hidden></div><div id="ar-warn" class="ar-warn" hidden></div>
    <div class="ar-bot"><canvas id="ar-radar" width="220" height="220" aria-label="Radar"></canvas>
@@ -3211,7 +3265,7 @@ function vAR(){
      <button class="btn primary" id="ar-go" style="width:100%">Activer caméra et boussole</button>
      <button class="btn" id="ar-manual" style="width:100%;margin-top:8px">Sans caméra : tourner au doigt</button>
      <p class="fact" style="margin-top:10px">Positions de principe d’après les cartes du dossier EHT. Si la boussole dérive, recalez sur un repère connu avec ◀ ▶.</p></div></div>
-   <div class="ar-cal"><button class="ar-btn" data-arcal="-5" aria-label="Recaler à gauche">◀ 5°</button><button class="ar-btn" data-arcal="5" aria-label="Recaler à droite">5° ▶</button></div>
+   <div class="ar-cal"><button class="ar-btn" data-arcam="1" aria-label="Changer de caméra">📷↻</button><button class="ar-btn" data-arcal="-5" aria-label="Recaler à gauche">◀ 5°</button><button class="ar-btn" data-arcal="5" aria-label="Recaler à droite">5° ▶</button></div>
   </div>`;
 }
 function arObjects(){
@@ -3220,10 +3274,11 @@ function arObjects(){
   const out=[];
   Object.entries(P.pos).forEach(([id,p])=>{ if(!p) return; const ll=px2ll(p[0],p[1]); const u=S.units[id];
     out.push({kind:"u",id,u,st:p[2],b:brg(here,ll),d:dist(here,ll)}); });
-  H_TOWNS.filter(t=>t[3]<=2).forEach(([n,x,y])=>{ const ll=px2ll(x,y), d=dist(here,ll); if(d>0.6&&d<40) out.push({kind:"t",n,b:brg(here,ll),d}); });
-  H_PEAKS.forEach(([n,x,y])=>{ const ll=px2ll(x,y), d=dist(here,ll); if(d>0.6&&d<40) out.push({kind:"p",n,b:brg(here,ll),d}); });
+  AR_PL.forEach((q,i)=>{ if(!AR.allPl && q.pr>2) return; const ll=[q.lat,q.lon], d=dist(here,ll); if(d>0.4&&d<(q.pr===1?45:30)) out.push({kind:q.k==="p"?"p":q.k==="v"?"t":q.k,n:q.n,pi:i,pr:q.pr,b:brg(here,ll),d}); });
   return {objs:out, P, S};
 }
+const AR_ICO={p:"▲ ",t:"■ ",m:"✚ ",s:"◆ "};
+const AR_KIND={p:"Sommet",t:"Localité",v:"Localité",m:"Lieu de mémoire",s:"Point de station"};
 function arRender(){
   const root=document.getElementById("ar"); if(!root) return;
   if (AR.map){ arMapRender(); return; }
@@ -3235,14 +3290,16 @@ function arRender(){
     const lab=a%90===0?["N","E","S","O"][a/90]:(a%30===0?a:""); t+=`<span style="left:${x}px" class="${a%30?"tk":"tk big"}">${lab}</span>`; }
   document.getElementById("ar-ticks").innerHTML=t;
   // objets visibles, sans chevauchement (rangées)
-  const vis=objs.map(o=>({...o,r:rel(o.b)})).filter(o=>Math.abs(o.r)<half+4).sort((a,b)=>a.d-b.d);
+  const vis=objs.map(o=>({...o,r:rel(o.b)})).filter(o=>Math.abs(o.r)<half+4).sort((a,b)=>(a.kind==="u"?0:a.pr||2)-(b.kind==="u"?0:b.pr||2)||a.d-b.d);
   const placed=[]; let h="";
   vis.forEach(o=>{ const x=W/2+o.r/half*W/2; const w=o.kind==="u"?86:Math.max(70,o.n.length*8);
     let y = o.kind==="u" ? hor-30-Math.min(1,o.d/30)*hor*0.35 : hor+24+Math.min(1,o.d/30)*30;
-    let tries=0; while(placed.some(p=>Math.abs(p.x-x)<(p.w+w)/2 && Math.abs(p.y-y)<(o.kind==="u"?84:26)) && tries<8){ y += o.kind==="u"?-86:28; tries++; }
+    const lim=o.kind==="u"?8:(o.pr===1?4:2);
+    let tries=0; while(placed.some(p=>Math.abs(p.x-x)<(p.w+w)/2 && Math.abs(p.y-y)<(o.kind==="u"?84:26)) && tries<lim){ y += o.kind==="u"?-86:28; tries++; }
+    if (o.kind!=="u" && tries>=lim && placed.some(p=>Math.abs(p.x-x)<(p.w+w)/2 && Math.abs(p.y-y)<26)) return;
     placed.push({x,y,w});
     if (o.kind==="u") h+=`<button class="ar-u ${o.st==="broken"?"brk":""}" data-aru="${o.id}" style="transform:translate(${x}px,${y}px)"><svg viewBox="-40 -40 80 100" width="62" height="78">${unitSym(o.u,o.st)}</svg><span>${o.d.toFixed(1)} km</span></button>`;
-    else h+=`<span class="ar-l ${o.kind}" style="transform:translate(${x}px,${y}px)">${o.kind==="p"?"▲ ":"■ "}${esc(o.n)} <i>${o.d.toFixed(1)} km</i></span>`;
+    else h+=`<button class="ar-l ${o.kind}" data-arpl="${o.pi}" style="transform:translate(${x}px,${y}px)">${AR_ICO[o.kind]||"■ "}${esc(o.n)} <i>${o.d.toFixed(1)} km</i></button>`;
   });
   document.getElementById("ar-objs").innerHTML=h;
   document.getElementById("ar-head").textContent=`Cap ${Math.round((AR.head+360)%360)}°`;
@@ -3291,10 +3348,48 @@ function arOrient(e){
   h=(h+360+(AR.cal||0))%360;
   const d=((h-AR.head+540)%360)-180; AR.head=(AR.head+d*0.25+360)%360; AR.live=true;
 }
-function arWarn(msg){ const w=document.getElementById("ar-warn"); if(!w) return; w.textContent=msg?tr(msg):""; w.hidden=!msg; }
+function arToast(msg){ const w=document.getElementById("ar-warn"); if(!w) return; if(AR.warnOn) return; w.textContent=trText(msg); w.hidden=false; w.classList.add("soft"); clearTimeout(AR.tw); AR.tw=setTimeout(()=>{ if(!AR.warnOn){ w.hidden=true; w.classList.remove("soft"); } },1600); }
+/* ---- caméra : certains Android ouvrent par défaut un capteur sans image (profondeur, macro, IR) ;
+   on vérifie qu'une image arrive, sinon on essaie les autres caméras arrière ---- */
+function arFrameOK(v,ms){ return new Promise(res=>{ const t0=Date.now(); const chk=()=>{ if(v.videoWidth>0 && v.readyState>=2 && (v.currentTime>0||Date.now()-t0>900)) return res(true); if(Date.now()-t0>ms) return res(false); setTimeout(chk,120); }; chk(); }); }
+async function arCamTry(c){ const v=document.getElementById("ar-cam"); let st=null;
+  try{ st=await navigator.mediaDevices.getUserMedia({video:c,audio:false}); }catch(e){ return false; }
+  v.srcObject=st; v.muted=true; v.setAttribute("playsinline",""); try{ await v.play(); }catch(_){}
+  if (await arFrameOK(v,2600)){ if(AR.cam&&AR.cam!==st) AR.cam.getTracks().forEach(t=>t.stop()); AR.cam=st; const tr0=st.getVideoTracks()[0]; AR.camId=tr0&&tr0.getSettings?tr0.getSettings().deviceId:null; return true; }
+  st.getTracks().forEach(t=>t.stop()); v.srcObject=null; return false; }
+async function arCamList(){ try{ const ds=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==="videoinput");
+  const back=d=>/back|rear|arri|environment|facing back|0\b/i.test(d.label||"")?0:1; return ds.sort((a,b)=>back(a)-back(b)); }catch(e){ return []; } }
+async function arCamOpen(){
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return false;
+  for (const c of [{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}}, {facingMode:"environment"}, true]) if (await arCamTry(c)) return true;
+  for (const d of await arCamList()) if (d.deviceId && await arCamTry({deviceId:{exact:d.deviceId}})) return true;
+  return false; }
+async function arCamNext(){ const L=(await arCamList()).filter(d=>d.deviceId); if(L.length<2){ arToast("Une seule caméra disponible"); return; }
+  const i=L.findIndex(d=>d.deviceId===AR.camId); for(let k=1;k<=L.length;k++){ const d=L[(i+k)%L.length]; if(await arCamTry({deviceId:{exact:d.deviceId}})){ AR.camOn=true; document.getElementById("ar").classList.add("cam"); arStatus(); arToast(tr("Caméra")+" "+((i+k)%L.length+1)+"/"+L.length); return; } }
+  arToast("Aucune autre caméra ne donne d’image"); }
+/* ---- boussole de secours : capteur d'orientation absolue (API Generic Sensor, Chrome Android),
+   pour les téléphones qui n'envoient pas de cap dans deviceorientation ---- */
+function arQuatHead(q){ const [x,y,z,w]=q, r=Math.PI/180;
+  const m02=2*(x*z+y*w), m12=2*(y*z-x*w), m22=1-2*(x*x+y*y), m01=2*(x*y-z*w), m11=1-2*(x*x+z*z);
+  const tilt=Math.acos(Math.max(-1,Math.min(1,m22)))/r; let vx,vy;
+  if (tilt>45){ vx=-m02; vy=-m12; } else { vx=m01; vy=m11; }
+  return [(Math.atan2(vx,vy)/r+360)%360, tilt]; }
+function arSensorStart(){
+  if (AR.sensor || AR.sensorTried) return; AR.sensorTried=true;
+  const mk=(C,abs)=>{ try{ const sn=new C({frequency:30,referenceFrame:"device"});
+      sn.addEventListener("reading",()=>{ if(!sn.quaternion) return; const [h0,t]=arQuatHead(sn.quaternion); arTilt(t);
+        const so=(screen.orientation&&screen.orientation.angle)||0; let h=t>45?h0:(h0+so)%360;
+        if(!abs){ if(AR.relOff===undefined) AR.relOff=((AR.head-h)+360)%360; h=(h+AR.relOff)%360; AR.rel=true; }
+        h=(h+360+(AR.cal||0))%360; const d=((h-AR.head+540)%360)-180; AR.head=(AR.head+d*0.25+360)%360; AR.live=true; AR.evt=true; AR.src=abs?"capteur":"capteur relatif"; });
+      sn.addEventListener("error",ev=>{ try{ sn.stop(); }catch(_){} AR.sensor=null; if(abs && "RelativeOrientationSensor" in window && !AR.relTried){ AR.relTried=true; mk(RelativeOrientationSensor,false); } });
+      sn.start(); AR.sensor=sn; return true; }catch(e){ return false; } };
+  if ("AbsoluteOrientationSensor" in window && mk(AbsoluteOrientationSensor,true)) return;
+  if ("RelativeOrientationSensor" in window){ AR.relTried=true; mk(RelativeOrientationSensor,false); }
+}
+function arWarn(msg){ AR.warnOn=!!msg; const w0=document.getElementById("ar-warn"); if(w0) w0.classList.remove("soft"); const w=document.getElementById("ar-warn"); if(!w) return; w.textContent=msg?tr(msg):""; w.hidden=!msg; }
 function arStatus(){
   const m=document.getElementById("ar-mode"); if(!m) return;
-  const parts=[tr(AR.camOn?"caméra":"sans caméra"), tr(AR.live?(AR.rel?"boussole relative":"boussole"):"au doigt")];
+  const parts=[tr(AR.camOn?"caméra":"sans caméra"), tr(AR.live?(AR.src||(AR.rel?"boussole relative":"boussole")):"au doigt")];
   if (AR.gps) parts.push(AR.gps); m.textContent=parts.join(" · ");
 }
 async function arStart(useSensors, pOri){
@@ -3307,7 +3402,7 @@ async function arStart(useSensors, pOri){
     try { const r = pOri ? await pOri : "granted"; comp = r==="granted"; } catch(e){ comp=false; }
     if (comp){ window.addEventListener("deviceorientationabsolute",arOrient,true); window.addEventListener("deviceorientation",arOrient,true); }
     // 2. caméra
-    try { const st=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false}); AR.cam=st; const v=document.getElementById("ar-cam"); v.srcObject=st; try{ await v.play(); }catch(_){} AR.camOn=true; } catch(e){}
+    try { AR.camOn = await arCamOpen(); } catch(e){ AR.camOn=false; }
     // 3. GPS suivi en continu
     if (navigator.geolocation){ try { AR.gpsW=navigator.geolocation.watchPosition(p=>{
         const ll=[p.coords.latitude,p.coords.longitude], k=AR_ST[AR.st][0], stn=[PLACES[k].lat,PLACES[k].lon], d=dist(ll,stn);
@@ -3317,10 +3412,11 @@ async function arStart(useSensors, pOri){
       err=>{ AR.gps=tr(err&&err.code===1?"GPS refusé":"GPS indisponible"); arStatus(); },
       {enableHighAccuracy:true,maximumAge:5000,timeout:15000}); } catch(e){ AR.gps=tr("GPS indisponible"); } }
     else AR.gps=tr("GPS indisponible");
+    setTimeout(()=>{ if(!AR.live) arSensorStart(); },1800);
     setTimeout(()=>{ arStatus();
-      if (!AR.evt) arWarn(inFrame ? "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte."
+      if (!AR.evt && !AR.live) arWarn(inFrame ? "Dans la page claude.ai, la boussole, la caméra et le GPS sont bloqués par le navigateur. Ouvrez l’appli installée depuis le lien GitHub ; en attendant, tournez la vue au doigt et utilisez le bouton 🗺 pour la carte."
                                   : "Boussole muette : autorisez « Mouvement et orientation » (iPhone : Réglages › Safari) puis rouvrez le Tour d’horizon. En attendant, tournez la vue au doigt ; le bouton 🗺 affiche la carte.");
-      else arWarn(""); },2500);
+      else arWarn(""); },3200);
   }
   document.getElementById("ar").classList.toggle("cam",AR.camOn);
   setTimeout(()=>{ document.getElementById("ar").classList.toggle("cam",AR.camOn); arStatus(); },1500);
@@ -3350,8 +3446,15 @@ function arMapBuild(W,H){
   const f=arFront(S); if(f){ const d=smooth(f); g+=`<path d="${d}" class="fl-edge" stroke-width="${9*iv}"/><path d="${d}" class="fl" stroke-width="${5*iv}" stroke-dasharray="${14*iv} ${6*iv}"/>`; }
   const rings = z>2.4?[1,2,3]:z>1.2?[2,5,10]:[5,10,20];
   rings.forEach(km=>{ const r=km/kmpx; g+=`<circle cx="${sx}" cy="${sy}" r="${r}" class="ar-ring" stroke-width="${2.4*iv}" stroke-dasharray="${7*iv} ${5*iv}"/><g transform="translate(${sx},${sy-r})"><g class="cr"><text class="ar-rk" font-size="${12*iv}" y="${-3*iv}" text-anchor="middle">${km} km</text></g></g>`; });
-  H_TOWNS.filter(t=>t[3]<=(z>1.8?3:2)).forEach(([n,x,y])=>{ g+=`<g transform="translate(${x},${y})"><g class="cr"><rect x="${-4.5*iv}" y="${-4.5*iv}" width="${9*iv}" height="${9*iv}" class="town" stroke-width="${2*iv}"/><text x="${9*iv}" y="${-5*iv}" class="tl" font-size="${15*iv}" stroke-width="${4*iv}">${esc(n)}</text></g></g>`; });
-  H_PEAKS.forEach(([n,x,y])=>{ if(Math.hypot(x-sx,y-sy)*kmpx<0.8) return; g+=`<g transform="translate(${x},${y})"><g class="cr"><path d="M${-6*iv},${3*iv} L0,${-7*iv} L${6*iv},${3*iv}Z" class="pk" stroke-width="${1.2*iv}"/><text y="${17*iv}" class="tl ar-pkl" font-size="${13*iv}" stroke-width="${4*iv}" text-anchor="middle">▲ ${esc(n)}</text></g></g>`; });
+  const kept=Object.values(P.pos).filter(Boolean).map(q=>[q[0],q[1]]), R=58/z;
+  AR_PL.map((q,pi)=>({q,pi})).sort((a,b)=>a.q.pr-b.q.pr).forEach(({q,pi})=>{ if(q.pr>2 && !AR.allPl && z<1.8) return; const [x,y]=ll2px(q.lat,q.lon); if(Math.hypot(x-sx,y-sy)*kmpx<0.5) return;
+    if (kept.some(([a,b])=>Math.hypot(a-x,b-y)<R)) return; kept.push([x,y]);
+    const mk = q.k==="p" ? `<path d="M${-6*iv},${3*iv} L0,${-7*iv} L${6*iv},${3*iv}Z" class="pk" stroke-width="${1.2*iv}"/>`
+      : q.k==="m" ? `<path d="M${-2*iv},${-7*iv}h${4*iv}v${5*iv}h${5*iv}v${4*iv}h${-5*iv}v${5*iv}h${-4*iv}v${-5*iv}h${-5*iv}v${-4*iv}h${5*iv}Z" class="ar-mm" stroke-width="${1.2*iv}"/>`
+      : q.k==="s" ? `<path d="M0,${-7*iv} L${7*iv},0 L0,${7*iv} L${-7*iv},0Z" class="ar-ms" stroke-width="${1.4*iv}"/>`
+      : `<rect x="${-4.5*iv}" y="${-4.5*iv}" width="${9*iv}" height="${9*iv}" class="town" stroke-width="${2*iv}"/>`;
+    const fs=(q.pr===3?12.5:14.5)*iv;
+    g+=`<g class="ar-mp" data-arpl="${pi}" transform="translate(${x},${y})"><g class="cr">${mk}<text x="${9*iv}" y="${-5*iv}" class="tl${q.k==="p"?" ar-pkl":q.k==="m"?" ar-mml":""}" font-size="${fs}" stroke-width="${4*iv}">${esc(q.n)}</text></g></g>`; });
   Object.entries(P.pos).forEach(([id,q])=>{ if(!q) return; const u=S.units[id]; if(!u) return;
     g+=`<g class="ar-mu" data-aru="${id}" transform="translate(${q[0]},${q[1]})"><g class="cr"><g transform="scale(${0.62*iv})">${unitSym(u,q[2])}</g></g></g>`; });
   g+=`</g>`;
@@ -3363,7 +3466,7 @@ function arMapBuild(W,H){
 }
 function arMapRender(){
   const root=document.getElementById("ar"), svg=document.getElementById("ar-msvg"); if(!root||!svg) return;
-  const W=root.clientWidth, H=root.clientHeight, key=[AR.st,AR.phase,AR.zoom,W,H,AR.own?AR.own.join():""].join("|");
+  const W=root.clientWidth, H=root.clientHeight, key=[AR.st,AR.phase,AR.zoom,W,H,AR.own?AR.own.join():"",AR.allPl].join("|");
   if (key!==AR.mkey){ const b=arMapBuild(W,H); svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.innerHTML=b.g; AR.mb=b; AR.mkey=key; AR.mhead=null; }
   const head=(AR.head+360)%360;
   if (AR.mhead===null || Math.abs(((head-AR.mhead+540)%360)-180)>0.3 || AR.mnorth!==AR.north){
@@ -3380,7 +3483,8 @@ function arMapRender(){
 }
 function arStop(){ cancelAnimationFrame(AR.raf); if(AR.cam){ AR.cam.getTracks().forEach(t=>t.stop()); AR.cam=null; }
   window.removeEventListener("deviceorientationabsolute",arOrient,true); window.removeEventListener("deviceorientation",arOrient,true); AR.live=false; clearTimeout(AR.tt); AR.want=null; AR.map=false;
-  if (AR.gpsW!=null && navigator.geolocation){ try{ navigator.geolocation.clearWatch(AR.gpsW); }catch(e){} AR.gpsW=null; } AR.relOff=undefined; AR.rel=false; AR.absSeen=false; }
+  if (AR.gpsW!=null && navigator.geolocation){ try{ navigator.geolocation.clearWatch(AR.gpsW); }catch(e){} AR.gpsW=null; } AR.relOff=undefined; AR.rel=false; AR.absSeen=false;
+  if (AR.sensor){ try{ AR.sensor.stop(); }catch(e){} AR.sensor=null; } AR.sensorTried=false; AR.relTried=false; AR.src=""; }
 function arMount(){
   const root=document.getElementById("ar"); if(!root || root.dataset.m) return; root.dataset.m="1";
   const sk=AR_ST[AR.st][1]; if (AR.phase>=SCEN[sk].phases.length) AR.phase=0;
@@ -3403,7 +3507,11 @@ function arMount(){
         <div class="fact">${un.side==="de"?"Allemands":un.side==="fr"?"CEF":"Alliés"} · cap ${Math.round(o.b)}° · ${o.d.toFixed(1)} km${o.st==="broken"?" · désorganisée":""}</div><p>${esc(P.txt)}</p><div class="fact">Source : ${esc(P.src)}</div>`; card.hidden=false; return; }
     if (e.target.closest("[data-arclose]")){ card.hidden=true; return; }
     const ph=e.target.closest("[data-arph]"); if (ph){ AR.phase=+ph.dataset.arph; arFrise(); arRender(); return; }
+    if (e.target.closest("[data-arcam]")){ arCamNext(); return; }
     if (e.target.closest("[data-arview]")){ arSetMap(!AR.map); return; }
+    if (e.target.closest("[data-arplall]")){ AR.allPl=!AR.allPl; const b=document.getElementById("ar-pl"); b.setAttribute("aria-pressed",AR.allPl); b.classList.toggle("on",AR.allPl); AR.mkey=""; arToast(AR.allPl?"Tous les lieux cités":"Lieux essentiels"); arRender(); return; }
+    const pl=e.target.closest("[data-arpl]"); if (pl){ const q=AR_PL[+pl.dataset.arpl]; const k=AR_ST[AR.st][0]; const here=AR.own||[PLACES[k].lat,PLACES[k].lon], ll=[q.lat,q.lon];
+      card.innerHTML=`<div class="row" style="justify-content:space-between"><b>${esc(q.n)}</b><button class="ar-btn" data-arclose="1">✕</button></div><div class="fact">${esc(tr(AR_KIND[q.k]||"Lieu"))} · ${esc(tr("cap"))} ${Math.round(brg(here,ll))}° · ${dist(here,ll).toFixed(1)} km</div>`; card.hidden=false; return; }
     const mz=e.target.closest("[data-armz]"); if (mz){ AR.zoom=Math.max(0.45,Math.min(5,AR.zoom*(+mz.dataset.armz>0?1.4:1/1.4))); arRender(); return; }
     if (e.target.closest("[data-arnorth]")){ AR.north=!AR.north; arRender(); return; }
     const cal=e.target.closest("[data-arcal]"); if (cal){ AR.cal=(AR.cal||0)+(+cal.dataset.arcal); AR.head=(AR.head+(+cal.dataset.arcal)+360)%360; arRender(); }
